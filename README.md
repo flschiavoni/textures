@@ -12,14 +12,16 @@ TO COMPILE
 ==========
 
 `cd src`
+
 `make`
 
 
 TO INSTALL
 ==========
 
-`cp src/towav ~/bin`
-`cp script/update.sh ~/bin`
+`cp src/towav ~/bin/.`
+
+`cp script/update.sh ~/bin/.`
 
 TO PERFORM
 ==========
@@ -38,4 +40,4 @@ Some instructions to perform:
    `while [ true ] ; do aplay -q Textures.bmp.wav ; done`
 
 
-No, have fun!
+Have fun!
