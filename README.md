@@ -26,9 +26,10 @@ TO INSTALL
 TO PERFORM
 ==========
 
-The score is like:
+Performance overview:
+
 1. Open an image with GIMP and edit it.
-2. Export the the image as BMP in GIMP using `Ctrl + E`
+2. Export the image as BMP in GIMP using `Ctrl + E`
 3. Use the update.sh script to monitor changes in Texture.bmp
 4. Update.sh will use towav to convert Textures.bmp to Textures.bmp.wav
 5. Use VLC in loop mode to keep Textures.bmp.wav playing forever. Yes, it can glitch...
