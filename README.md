@@ -46,8 +46,12 @@ SOME EXAMPLES
 Sound example created with Wallace Roza texture image
 [![Separação](https://i.ytimg.com/vi/Dcm2uKFFmV0/mqdefault.jpg)](https://www.youtube.com/watch?v=Dcm2uKFFmV0)
 
+
+
 Old example runing without the automatic script
 [![Example](https://i.ytimg.com/vi/9gq1gk4jeJM/mqdefault.jpg)](https://www.youtube.com/watch?v=9gq1gk4jeJM)
+
+
 
 
 Have fun!
