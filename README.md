@@ -2,7 +2,7 @@
 
 This repository a collection of files:
 
-1. A (C) application that converts anything to a wave file
+1. An application that converts anything to a wave file
 2. A script to call this application every time a file was changed
 
 All this applications together are used to play textures. Normally I also use
@@ -43,15 +43,11 @@ Some instructions to perform:
 SOME EXAMPLES
 =============
 
-Sound example created with Wallace Roza texture image
-[![Separação](https://i.ytimg.com/vi/Dcm2uKFFmV0/mqdefault.jpg)](https://www.youtube.com/watch?v=Dcm2uKFFmV0)
-
-
-
-Old example runing without the automatic script
-[![Example](https://i.ytimg.com/vi/9gq1gk4jeJM/mqdefault.jpg)](https://www.youtube.com/watch?v=9gq1gk4jeJM)
-
-
+Sound example created with Wallace Roza texture image 
+[![Separação](https://i.ytimg.com/vi/Dcm2uKFFmV0/mqdefault.jpg)](https://www.youtube.com/watch?v=Dcm2uKFFmV0) 
+ 
+Old example runing without the automatic script 
+[![Example](https://i.ytimg.com/vi/9gq1gk4jeJM/mqdefault.jpg)](https://www.youtube.com/watch?v=9gq1gk4jeJM) 
 
 
 Have fun!
