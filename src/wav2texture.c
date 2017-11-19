@@ -12,9 +12,11 @@
 
 FILE * create_file(const char * file_name){
    // New file
-   char * newfilename = malloc(strlen(file_name + 4));
+   char * newfilename = malloc(strlen(file_name) + 5);
+   memset(newfilename, 0, strlen(file_name) + 5);
    strcpy(newfilename, file_name);
-   strcat(newfilename, ".bmp");
+   strcat(newfilename, ".bmp\0");
+   printf("Creating file %s\n", newfilename);
    return fopen(newfilename,"wb+");
 }
 
@@ -32,19 +34,23 @@ void create_file_with_data(const char * file_name, void * buffer, int size){
 
 int main(int argc, char ** argv){
 
+    int height = 400; // default value
+
    if(argc < 3){
       printf("Usage:\n %s <file_name> height\n", argv[0]);
-      exit(0);
+      printf("Height - repetitions\n");
+   }else{
+    height = atoi(argv[2]);
    }
 
-    SNDFILE *sf;
+    SNDFILE *sf = NULL;
     SF_INFO info;
     sf = sf_open(argv[1], SFM_READ, &info);
     if(!sf) {
-    printf("Not able to open input file %s.\n", argv[1]);
-    puts(sf_strerror(NULL));
-    return 0;
-  }
+        printf("Not able to open input file %s.\n", argv[1]);
+        puts(sf_strerror(NULL));
+        return 0;
+    }
 
     // File info
     printf("Frames in file: %ld frames (%fs)\n", info.frames, ((float)info.frames) / ((float)info.samplerate));
@@ -87,20 +93,21 @@ int main(int argc, char ** argv){
     // Convert to 8 bits
     char * audio8bits = malloc(read * sizeof(char));
     read = medusa_dsp_change_quantization(MEDUSA_32_BITS, MEDUSA_8_BITS,
-                audio8k,
+                (char *)audio8k,
                 audio8bits,
                 read);
     printf("Size (pos 8bits conversion): %d frames (%fs)\n", read, ((float)read) / 8000.0);
 
+    // convert to unsigned char
     unsigned char * audio8bitsunsigned = malloc(read * sizeof(char));
-    for(int i = 0 ; i < read ; i++)
+    for(int i = 0 ; i < read ; i++){
         audio8bitsunsigned[i] = audio8bits[i] + 128;
-
+//        audio8bitsunsigned[i] = audio8bits[i];
+    }
 //    create_file_with_data(argv[1], audio8bitsunsigned, read);
 
-    int height = atoi(argv[2]);
-    int width = read / 3;
     int bpp = 24; // bits per pixels
+    int width = read / 3; // 8 bits per color x 3 color per pixel
     int size = height * read;
 
     printf("Image size (%d,%d) %d \n", width, height, size);
@@ -121,14 +128,17 @@ int main(int argc, char ** argv){
    int flag = 0; // reserved: Must be zero
    fwrite(&flag, 1, 2, fp);
    fwrite(&flag, 1, 2, fp);
+
    flag = 54; // offset to start the image
    fwrite(&flag, 1, 4, fp);
+
    flag = 40; // size of BITMAPINFOHEADER structure, must be 40
    fwrite(&flag, 1, 4, fp);
    flag = width; // image width in pixels
    fwrite(&flag, 1, 4, fp);
    flag = height; // image height in pixels
    fwrite(&flag, 1, 4, fp);
+
    flag = 1; // number of planes in the image, must be 1
    fwrite(&flag, 1, 2, fp);
    flag = bpp; // number of bits per pixel (1, 4, 8, or 24)

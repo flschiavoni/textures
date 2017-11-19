@@ -1,3 +1,6 @@
+src/tobmp
+src/towav
+src/wav2texture
 # Object files
 *.o
 *.ko
