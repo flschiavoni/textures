@@ -33,13 +33,14 @@ int main(int argc, char ** argv){
 
    height = size / (bpp / 8.0) / width;
 
-   // Read file data
    FILE * f = fopen (filename, "rb");
 
+   // Chomp file header
    char * header = 0;
    header = malloc(WAV_HEADER_SIZE * sizeof(char));
    fread (header, 1, WAV_HEADER_SIZE, f);
 
+   // Read file data
    char * buffer = 0;
    buffer = malloc(size);
    fread (buffer, 1, size, f);
