@@ -19,8 +19,10 @@ int main(int argc, char ** argv){
    int bpp = atoi(argv[3]);
    int height = 0;
 
-   char * filename = malloc(strlen(argv[1]) * sizeof(char));
+   int n_chars = strlen(argv[1]) + 1;
+   char * filename = malloc(n_chars * sizeof(char));
    strcpy(filename, argv[1]);
+   filename[n_chars - 1] = '\0';
 
    struct stat st;
    stat(filename, &st);
@@ -37,9 +39,10 @@ int main(int argc, char ** argv){
    fclose (f);
 
    // New file
-   char * newfilename = malloc((strlen(argv[1]) + 4) * sizeof(char));
+   char * newfilename = malloc((n_chars + 4) * sizeof(char));
    strcpy(newfilename, filename);
    strcat(newfilename, ".bmp");
+   newfilename[n_chars + 3] = '\0';
    FILE *fp = fopen(newfilename,"wb+");
 
    fwrite("BM", 1, 2, fp); //signature, must be 4D42 hex
