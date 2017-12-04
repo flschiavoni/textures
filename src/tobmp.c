@@ -19,7 +19,7 @@ int main(int argc, char ** argv){
    int bpp = atoi(argv[3]);
    int height = 0;
 
-   char * filename = malloc(strlen(argv[1]));
+   char * filename = malloc(strlen(argv[1]) * sizeof(char));
    strcpy(filename, argv[1]);
 
    struct stat st;
@@ -37,7 +37,7 @@ int main(int argc, char ** argv){
    fclose (f);
 
    // New file
-   char * newfilename = malloc(strlen(argv[1] + 4));
+   char * newfilename = malloc((strlen(argv[1]) + 4) * sizeof(char));
    strcpy(newfilename, filename);
    strcat(newfilename, ".bmp");
    FILE *fp = fopen(newfilename,"wb+");

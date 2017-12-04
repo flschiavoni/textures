@@ -16,7 +16,7 @@ int main(int argc, char ** argv){
    int sample_rate = atoi(argv[2]);
    int bit_depth = atoi(argv[3]);
 
-   char * filename = malloc(strlen(argv[1]));
+   char * filename = malloc(strlen(argv[1]) * sizeof(char));
    strcpy(filename, argv[1]);
 
    struct stat st;
@@ -31,7 +31,7 @@ int main(int argc, char ** argv){
    fread (buffer, 1, size, f);
    fclose (f);
 
-   char * newfilename = malloc(strlen(argv[1] + 4));
+   char * newfilename = malloc((strlen(argv[1]) + 4) * sizeof(char));
    strcpy(newfilename, filename);
    strcat(newfilename, ".wav");
    FILE *fp = fopen(newfilename,"wb+");
