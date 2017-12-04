@@ -27,7 +27,7 @@ int main(int argc, char ** argv){
    uint32_t size = st.st_size;
    printf("filesize: %d\n", size);
 
-   height = size / bpp / width;
+   height = size / (bpp / 8.0) / width;
 
    // Read file data
    char * buffer = 0;
