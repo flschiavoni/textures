@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+static const int WAV_HEADER_SIZE = 44;
+
 int main(int argc, char ** argv){
 
    if(argc < 4){
@@ -19,27 +21,37 @@ int main(int argc, char ** argv){
    int bpp = atoi(argv[3]);
    int height = 0;
 
-   char * filename = malloc(strlen(argv[1]));
+   int n_chars = strlen(argv[1]) + 1;
+   char * filename = malloc(n_chars * sizeof(char));
    strcpy(filename, argv[1]);
+   filename[n_chars - 1] = '\0';
 
    struct stat st;
    stat(filename, &st);
-   uint32_t size = st.st_size;
+   uint32_t size = st.st_size - WAV_HEADER_SIZE;
    printf("filesize: %d\n", size);
 
-   height = size / bpp / width;
+   height = size / (bpp / 8.0) / width;
+
+   FILE * f = fopen (filename, "rb");
+
+   // Chomp file header
+   char * header = 0;
+   header = malloc(WAV_HEADER_SIZE * sizeof(char));
+   fread (header, 1, WAV_HEADER_SIZE, f);
 
    // Read file data
    char * buffer = 0;
-   FILE * f = fopen (filename, "rb");
    buffer = malloc(size);
    fread (buffer, 1, size, f);
+
    fclose (f);
 
    // New file
-   char * newfilename = malloc(strlen(argv[1] + 4));
+   char * newfilename = malloc((n_chars + 4) * sizeof(char));
    strcpy(newfilename, filename);
    strcat(newfilename, ".bmp");
+   newfilename[n_chars + 3] = '\0';
    FILE *fp = fopen(newfilename,"wb+");
 
    fwrite("BM", 1, 2, fp); //signature, must be 4D42 hex
