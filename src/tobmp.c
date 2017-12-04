@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+static const int WAV_HEADER_SIZE = 44;
+
 int main(int argc, char ** argv){
 
    if(argc < 4){
@@ -26,16 +28,22 @@ int main(int argc, char ** argv){
 
    struct stat st;
    stat(filename, &st);
-   uint32_t size = st.st_size;
+   uint32_t size = st.st_size - WAV_HEADER_SIZE;
    printf("filesize: %d\n", size);
 
    height = size / (bpp / 8.0) / width;
 
    // Read file data
-   char * buffer = 0;
    FILE * f = fopen (filename, "rb");
+
+   char * header = 0;
+   header = malloc(WAV_HEADER_SIZE * sizeof(char));
+   fread (header, 1, WAV_HEADER_SIZE, f);
+
+   char * buffer = 0;
    buffer = malloc(size);
    fread (buffer, 1, size, f);
+
    fclose (f);
 
    // New file

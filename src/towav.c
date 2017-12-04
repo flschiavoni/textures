@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+static const int BMP_HEADER_SIZE = 54;
+
 int main(int argc, char ** argv){
 
    if(argc < 4){
@@ -23,14 +25,21 @@ int main(int argc, char ** argv){
 
    struct stat st;
    stat(filename, &st);
-   uint32_t size = st.st_size;
+   uint32_t size = st.st_size - BMP_HEADER_SIZE;
    printf("filesize: %d\n", size);
+
+   FILE * f = fopen (filename, "rb");
+
+   // Chomp file header
+   char * header = 0;
+   header = malloc(BMP_HEADER_SIZE * sizeof(char));
+   fread (header, 1, BMP_HEADER_SIZE, f);
 
    // Read file data
    char * buffer = 0;
-   FILE * f = fopen (filename, "rb");
    buffer = malloc(size);
    fread (buffer, 1, size, f);
+
    fclose (f);
 
    char * newfilename = malloc((n_chars + 4) * sizeof(char));
